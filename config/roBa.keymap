@@ -14,14 +14,15 @@
 };
 
 &lt {
-    flavor = "balanced";
+    flavor = "hold-preferred";
     quick-tap-ms = <0>;
     tapping-term-ms = <200>;
 };
 
 &trackball {
-    // AMLは無効。Layer 2(LM)ホールド時にスクロール
-    scroll-layers = <2>;
+    // AMLは無効
+    // Layer 3 アクティブ時にボール回転がスクロールになる
+    scroll-layers = <3>;
 };
 
 / {
@@ -73,6 +74,29 @@
 &kp LCTRL           &kp F4        &kp F5        &kp F6          &kp F11       &trans                   &trans           &kp LS(LA(N3)) &trans         &kp LC(LA(LG(F1))) &trans      &kp C_VOL_DN
 &kp LSHFT           &kp F1        &kp F2        &kp F3          &kp F10       &trans                   &trans           &kp LA(LEFT)   &kp LA(RIGHT)  &kp F14         &kp F15         &kp F13
 &kp ESC             &trans        &trans        &trans          &trans        &trans                   &kp LCTRL        &trans                                                        &mkp MB5
+            >;
+        };
+        // =========================================================
+        // Layer 4 - placeholder (lt/mt参照がこのレイヤーを作らない場合ZMKがレイヤー数を合わせるため配置)
+        // =========================================================
+        layer_4 {
+            bindings = <
+&trans              &trans        &trans        &trans          &trans                                                 &trans          &trans        &trans          &trans          &trans
+&trans              &trans        &trans        &trans          &trans        &trans                   &trans           &trans          &trans        &trans          &trans          &trans
+&trans              &trans        &trans        &trans          &trans        &trans                   &trans           &trans          &trans        &trans          &trans          &trans
+&trans              &trans        &trans        &trans          &trans        &trans                   &trans           &trans                                                        &trans
+            >;
+        };
+
+        // =========================================================
+        // Layer 5 - SCROLL (Z位置ホールドで起動、トラックボール=スクロール)
+        // =========================================================
+        scroll_layer {
+            bindings = <
+&trans              &trans        &trans        &trans          &trans                                                 &trans          &trans        &trans          &trans          &trans
+&trans              &trans        &trans        &trans          &trans        &trans                   &trans           &trans          &trans        &trans          &trans          &trans
+&trans              &trans        &trans        &trans          &trans        &trans                   &trans           &trans          &trans        &trans          &trans          &trans
+&trans              &trans        &trans        &trans          &trans        &trans                   &trans           &trans                                                        &trans
             >;
         };
     };
