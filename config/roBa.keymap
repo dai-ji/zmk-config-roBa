@@ -51,11 +51,13 @@
         compatible = "zmk,keymap";
 
         // ===== Layer 0: BASE =====
+        // 右手のSQT位置(P右隣)とSLASH位置(右下隅)にMB1/MB2を直置き
+        // ボールを動かさなくても即クリック可能
         default_layer {
             bindings = <
 &kp Q         &kp W         &kp E         &kp R         &kp T                                             &kp Y         &kp U         &kp I         &kp O         &kp P
-&kp A         &kp S         &kp D         &kp F         &kp G         &kp LS(LG(S))          &kp MINUS    &kp H         &kp J         &kp K         &kp L         &kp SQT
-&mt LSHFT Z   &kp X         &kp C         &kp V         &kp B         &kp COLON              &kp SEMI     &kp N         &kp M         &kp COMMA     &kp DOT       &mt RSHFT SLASH
+&kp A         &kp S         &kp D         &kp F         &kp G         &kp LS(LG(S))          &kp MINUS    &kp H         &kp J         &kp K         &kp L         &mkp MB1
+&mt LSHFT Z   &kp X         &kp C         &kp V         &kp B         &kp COLON              &kp SEMI     &kp N         &kp M         &kp COMMA     &kp DOT       &mkp MB2
 &kp LCTRL     &kp LGUI      &kp LALT      &lt 3 ESC     &lt 1 SPACE   &mo 4                  &kp LCTRL    &lt 2 BSPC                                              &kp DEL
             >;
             sensor-bindings = <&inc_dec_kp PG_UP PAGE_DOWN>;
@@ -95,6 +97,8 @@
         };
 
         // ===== Layer 4: MOUSE (auto-mouse、トラックボール動作で自動起動) =====
+        // ホームポジション(JKL)にもクリック配置 → ボール操作中はホームから即クリック可能
+        // L0で配置したMB1/MB2位置は&trans（透過）でL0の値を維持
         mouse_layer {
             bindings = <
 &trans        &trans        &trans        &trans        &trans                                            &trans        &trans        &trans        &trans        &trans
