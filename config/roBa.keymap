@@ -1,18 +1,5 @@
-// =============================================================================
-// roBa keymap - Keyball39 cheatsheetを忠実に移植
-// =============================================================================
-// レイアウトの注記:
-//   roBa右手は5列(Keyball39と同じ列数)。Keyball39 cheatsheetに従い、
-//   N の右隣2つに MB1, MB2 を配置。最右列は Enter / "-" / Esc(L3).
-//
-//   roBa左手は5列。Keyball39の最内列(Q/A/Z/Win)を左端に配置。
-//   roBaは1行目が5キーなので、Keyball39と全く同じ並びに。
-//
-//   親指: roBaは左右各3キー(計6キー)。Keyball39と同じ並び:
-//   左親指: Layer1 / LM(Layer2) / Layer3+Lang2
-//   右親指: Lang1+Ctrl / BS / [余り→DEL]
-//   Esc/Layer3 はピンキー外列 (Keyball39と同様)
-// =============================================================================
+// Keyball39 cheatsheetを忠実にroBaへ移植
+// roBaは42キー(マトリクス43)、Keyball39は39キー。余る3キー(列0/10の上段と親指中央の余り)はtrans
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
@@ -33,163 +20,59 @@
 };
 
 &trackball {
-    // automouse-layer = <4>;   // 無効化: マウスレイヤーは手動切替のみ
-    scroll-layers = <5>;
+    // AMLは無効。Layer 2(LM)ホールド時にスクロール
+    scroll-layers = <2>;
 };
 
 / {
-    behaviors {
-        // (custom behaviors removed - using built-in &mt for hold-tap)
-    };
-
-    combos {
-        compatible = "zmk,combos";
-
-        combo_tab {
-            bindings = <&kp TAB>;
-            key-positions = <11 12>;  // S + D
-            timeout-ms = <30>;
-        };
-
-        combo_shift_tab {
-            bindings = <&kp LS(TAB)>;
-            key-positions = <12 13>;  // D + F
-            timeout-ms = <30>;
-        };
-
-        combo_esc {
-            bindings = <&kp ESC>;
-            key-positions = <0 1>;  // Q + W
-            timeout-ms = <30>;
-        };
-    };
-
     keymap {
         compatible = "zmk,keymap";
 
-        // ============================================================
-        // Layer 0: BASE  (Keyball39 Layer 0 を忠実移植)
-        // ------------------------------------------------------------
-        // 左手:   Q W E R T              右手:  Y U I O P
-        //         A S D F G                    H J K L Enter
-        //  Z(Sh) X C V B                       N M MB1 MB2 -(Sh)
-        //  Win  ,(Alt) > .   |   |    親指
-        //  ↓親指
-        //  L1  LM2  L3+Lang2  | Ctrl+Lang1  BS  [Esc/L3]
-        // ------------------------------------------------------------
-        // roBa固有の追加キー:
-        //   - 左1行目左端Q左の余り→ なし(roBaは1行目5キーなのでぴったり)
-        //   - 右1行目右端→ 既にPがある
-        //   - 中央親指の余り→ &mo 4 (MOUSE切替) を配置
-        // ============================================================
+        // =========================================================
+        // Layer 0
+        // =========================================================
         default_layer {
             bindings = <
-&kp Q              &kp W            &kp E         &kp R             &kp T                                                              &kp Y               &kp U         &kp I         &kp O           &kp P
-&kp A              &kp S            &kp D         &kp F             &kp G                  &kp LS(LG(S))          &kp MINUS            &kp H               &kp J         &kp K         &kp L           &kp ENTER
-&mt LSHFT Z        &kp X            &kp C         &kp V             &kp B                  &kp COLON              &kp SEMI             &kp N               &kp M         &mkp MB1      &mkp MB2        &mt RSHFT MINUS
-&kp LGUI           &kp LALT         &kp DOT       &lt 1 SPACE       &lt 2 TAB              &lt 3 LANG2            &mt LCTRL LANG1      &kp BSPC                                                        &lt 3 ESC
+&kp Q               &kp W         &kp E         &kp R           &kp T                                                  &kp Y           &kp U         &kp I           &kp O           &kp P
+&kp A               &kp S         &kp D         &kp F           &kp G         &trans                   &trans           &kp H           &kp J         &kp K           &kp L           &kp ENTER
+&mt LSHFT Z         &kp X         &kp C         &kp V           &kp B         &trans                   &trans           &kp N           &kp M         &mkp MB1        &mkp MB2        &mt RSHFT MINUS
+&kp LGUI            &mt LALT COMMA &kp DOT      &mo 1           &mo 2         &lt 3 LANG2              &mt LCTRL LANG1  &kp BSPC                                                      &lt 3 ESC
             >;
-            sensor-bindings = <&inc_dec_kp PG_UP PAGE_DOWN>;
         };
 
-        // ============================================================
-        // Layer 1: SYMBOLS  (Keyball39 Layer 1 移植)
-        // ------------------------------------------------------------
-        // 左手:    $    &    ^    ?/             右手:  |  {  }  <
-        //   %                                            >
-        //          #    *    +=                          _  (  )  :;
-        //   @                                            :
-        //          ~    !    ?                            [  ]  '
-        //   ~                                            "
-        // ============================================================
+        // =========================================================
+        // Layer 1 - Symbols (Keyball39 Layer 1)
+        // =========================================================
         symbol_layer {
             bindings = <
-&kp DLLR           &kp AMPS         &kp CARET     &kp QMARK         &kp FSLH                                                           &kp PIPE            &kp LBRC      &kp RBRC      &kp LT          &kp GT
-&kp PRCNT          &kp HASH         &kp ASTRK     &kp PLUS          &kp EQUAL              &trans                 &trans               &kp UNDER           &kp LPAR      &kp RPAR      &kp COLON       &kp SEMI
-&kp AT             &kp TILDE        &kp EXCL      &kp QMARK         &trans                 &trans                 &trans               &trans              &kp LBKT      &kp RBKT      &kp SQT         &kp DQT
-&trans             &trans           &kp LA(W)     &trans            &trans                 &trans                 &trans               &kp SPACE                                                       &trans
+&kp PRCNT           &kp DLLR      &kp AMPS      &kp CARET       &kp QMARK                                              &kp PIPE        &kp LBRC      &kp RBRC        &kp LT          &kp GT
+&kp AT              &kp HASH      &kp ASTRK     &kp EQUAL       &kp EQUAL     &trans                   &trans           &kp UNDER       &kp LPAR      &kp RPAR        &kp SEMI        &kp COLON
+&kp GRAVE           &kp TILDE     &trans        &kp EXCL        &kp QMARK     &trans                   &trans           &kp BSLH        &kp LBKT      &kp RBKT        &kp SQT         &kp DQT
+&kp LGUI            &kp LALT      &kp LA(W)     &trans          &trans        &trans                   &trans           &kp SPACE                                                     &trans
             >;
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
 
-        // ============================================================
-        // Layer 2: NUM/NAV  (Keyball39 Layer 2 移植)
-        // ------------------------------------------------------------
-        // 左手:   &7  *8  (9 Win/Cmd-/      右手: Enter Home ↑ End  Alt
-        //  Tab                                                       Page Down
-        //         $4  %5  ^6                     Page Up ← ↓ →     MB3
-        //                                                       
-        //         !1  @2  #3                     Alt← Alt→ MB1 MB2
-        //  )0                                                        L3
-        //                                       Ctrl  Del
-        // ============================================================
+        // =========================================================
+        // Layer 2 - Num/Nav/Mouse (Keyball39 Layer 2)
+        // =========================================================
         num_layer {
             bindings = <
-&kp N7             &kp N8           &kp N9        &kp LG(FSLH)      &trans                                                             &kp ENTER           &kp HOME      &kp UP        &kp END         &kp LALT
-&kp TAB            &kp N4           &kp N5        &kp N6            &trans                 &trans                 &trans               &kp PG_UP           &kp LEFT      &kp DOWN      &kp RIGHT       &kp PG_DN
-&kp N0             &kp N1           &kp N2        &kp N3            &trans                 &trans                 &trans               &kp LA(LEFT)        &kp LA(RIGHT) &mkp MB1      &mkp MB2        &mkp MB3
-&trans             &trans           &trans        &trans            &trans                 &trans                 &kp LCTRL            &kp DEL                                                         &mo 3
+&trans              &kp N7        &kp N8        &kp N9          &kp LG(FSLH)                                           &kp ENTER       &kp HOME      &kp UP          &kp END         &kp LALT
+&kp TAB             &kp N4        &kp N5        &kp N6          &trans        &trans                   &trans           &kp PG_UP       &kp LEFT      &kp DOWN        &kp RIGHT       &kp PG_DN
+&trans              &kp N1        &kp N2        &kp N3          &trans        &trans                   &trans           &kp LA(LEFT)    &kp LA(RIGHT) &mkp MB1        &mkp MB2        &mkp MB3
+&kp N0              &trans        &trans        &trans          &trans        &trans                   &kp LCTRL        &kp DEL                                                       &mo 3
             >;
-            sensor-bindings = <&inc_dec_kp C_NEXT C_PREV>;
         };
 
-        // ============================================================
-        // Layer 3: FUNCTION  (Keyball39 Layer 3 移植)
-        // ------------------------------------------------------------
-        // 左手:   F7 F8 F9 F12         右手: C+S+W4 S+W4 S+W5 Win+Sp Vol+
-        // *Ctrl(                                                      
-        //         F4 F5 F6 F11                S+W3        C+A+W F1   Vol-
-        // *Shift(                                                     
-        //         F1 F2 F3 F10                Alt← Alt→ F14   F15    F13
-        //  Esc                                                        MB5
-        // (Win+Sp = Spotlight, S+W = Window系のショートカット)
-        // ============================================================
+        // =========================================================
+        // Layer 3 - Function (Keyball39 Layer 3)
+        // =========================================================
         fn_layer {
             bindings = <
-&kp F7             &kp F8           &kp F9        &kp F12           &trans                                                             &kp LC(LS(LA(N4)))  &kp LS(LA(N4)) &kp LS(LA(N5)) &kp LG(SPACE)  &kp C_VOL_UP
-&kp LCTRL          &kp F4           &kp F5        &kp F6            &kp F11                &trans                 &trans               &kp LS(LA(N3))      &trans         &kp LC(LA(LG(F1))) &kp F1     &kp C_VOL_DN
-&kp LSHFT          &kp F1           &kp F2        &kp F3            &kp F10                &trans                 &trans               &kp LA(LEFT)        &kp LA(RIGHT) &kp F14        &kp F15        &kp F13
-&kp ESC            &trans           &trans        &trans            &trans                 &mo 6                  &kp LCTRL            &trans                                                          &mkp MB5
-            >;
-            sensor-bindings = <&inc_dec_kp C_BRI_UP C_BRI_DN>;
-        };
-
-        // ============================================================
-        // Layer 4: AUTO MOUSE  (トラックボール操作で自動起動)
-        // ------------------------------------------------------------
-        // L0と同じMB1/MB2位置をtrans(透過)。クリック追加配置:
-        //   ホームポジション付近にもMB1/MB2を二重化
-        // ============================================================
-        mouse_layer {
-            bindings = <
-&trans             &trans           &trans        &trans            &trans                                                             &trans              &trans        &trans        &trans          &trans
-&trans             &trans           &trans        &trans            &trans                 &trans                 &trans               &trans              &mkp MB1      &mkp MB3      &mkp MB2        &trans
-&trans             &trans           &trans        &trans            &trans                 &trans                 &trans               &trans              &trans        &trans        &trans          &trans
-&trans             &trans           &trans        &mkp MB1          &mkp MB2               &trans                 &mkp MB1             &mkp MB2                                                        &trans
-            >;
-        };
-
-        // ============================================================
-        // Layer 5: SCROLL  (mouse_layerからアクセス用)
-        // ============================================================
-        scroll_layer {
-            bindings = <
-&trans             &trans           &trans        &trans            &trans                                                             &trans              &trans        &trans        &trans          &trans
-&trans             &trans           &trans        &trans            &trans                 &trans                 &trans               &trans              &trans        &trans        &trans          &trans
-&trans             &trans           &trans        &trans            &trans                 &trans                 &trans               &trans              &trans        &trans        &trans          &trans
-&trans             &trans           &trans        &trans            &trans                 &trans                 &trans               &trans                                                          &trans
-            >;
-        };
-
-        // ============================================================
-        // Layer 6: BT  (Bluetooth設定。Layer 3 から &mo 6)
-        // ============================================================
-        bt_layer {
-            bindings = <
-&trans             &trans           &trans        &trans            &trans                                                             &bt BT_SEL 0        &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3    &bt BT_SEL 4
-&trans             &out OUT_USB     &out OUT_BLE  &trans            &trans                 &trans                 &trans               &trans              &trans        &trans        &trans          &trans
-&trans             &trans           &trans        &trans            &trans                 &trans                 &trans               &trans              &trans        &trans        &trans          &bt BT_CLR
-&trans             &trans           &trans        &trans            &trans                 &bootloader            &trans               &trans                                                          &bt BT_CLR_ALL
+&kp F7              &kp F8        &kp F9        &kp F12         &trans                                                 &kp LC(LS(LA(N4))) &kp LS(LA(N4)) &kp LS(LA(N5)) &kp LG(SPACE) &kp C_VOL_UP
+&kp LCTRL           &kp F4        &kp F5        &kp F6          &kp F11       &trans                   &trans           &kp LS(LA(N3)) &trans         &kp LC(LA(LG(F1))) &trans      &kp C_VOL_DN
+&kp LSHFT           &kp F1        &kp F2        &kp F3          &kp F10       &trans                   &trans           &kp LA(LEFT)   &kp LA(RIGHT)  &kp F14         &kp F15         &kp F13
+&kp ESC             &trans        &trans        &trans          &trans        &trans                   &kp LCTRL        &trans                                                        &mkp MB5
             >;
         };
     };
