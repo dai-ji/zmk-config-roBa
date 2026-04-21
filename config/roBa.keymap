@@ -39,17 +39,7 @@
 
 / {
     behaviors {
-        // 日本語/英語切替: Mac の Lang1 = かな(英数), Lang2 = 英数(かな)
-        // ※実際のキーコード送信は kana = LANG1, eisu = LANG2
-        // hold = Ctrl, tap = Lang1
-        ctrl_lang1: ctrl_lang1 {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <0>;
-            tapping-term-ms = <200>;
-            quick-tap-ms = <0>;
-            flavor = "balanced";
-            bindings = <&kp LCTRL>, <&kp INT_HENKAN>;
-        };
+        // (custom behaviors removed - using built-in &mt for hold-tap)
     };
 
     combos {
@@ -97,7 +87,7 @@
 &kp Q              &kp W            &kp E         &kp R             &kp T                                                              &kp Y               &kp U         &kp I         &kp O           &kp P
 &kp A              &kp S            &kp D         &kp F             &kp G                  &kp LS(LG(S))          &kp MINUS            &kp H               &kp J         &kp K         &kp L           &kp ENTER
 &mt LSHFT Z        &kp X            &kp C         &kp V             &kp B                  &kp COLON              &kp SEMI             &kp N               &kp M         &mkp MB1      &mkp MB2        &mt RSHFT MINUS
-&kp LGUI           &kp LALT         &kp DOT       &lt 1 SPACE       &lt 2 TAB              &mo 4                  &ctrl_lang1          &kp BSPC                                                        &lt 3 ESC
+&kp LGUI           &kp LALT         &kp DOT       &lt 1 SPACE       &lt 2 TAB              &mo 4                  &mt LCTRL INT_HENKAN &kp BSPC                                                        &lt 3 ESC
             >;
             sensor-bindings = <&inc_dec_kp PG_UP PAGE_DOWN>;
         };
