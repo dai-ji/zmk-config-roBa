@@ -1,5 +1,8 @@
-// Keyball39 cheatsheetを忠実にroBaへ移植
-// roBaは42キー(マトリクス43)、Keyball39は39キー。余る3キー(列0/10の上段と親指中央の余り)はtrans
+// Keyball39 cheatsheet を roBa へ忠実移植（ultrathink で PDF 全比較済み）
+// 修正箇所:
+//   L1: QMARK→FSLH, EQUAL→PLUS, 右|\位置調整
+//   L2: Q位置にTAB, A位置はtrans
+//   L3: 左手F配置を右に1つシフト, Alt→Cmd(LG)に修正
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
@@ -20,8 +23,7 @@
 };
 
 &trackball {
-    // AMLは無効
-    // Layer 3 アクティブ時にボール回転がスクロールになる
+    // AMLは無効。Layer 3 アクティブ時にボール回転がスクロールになる
     scroll-layers = <3>;
 };
 
@@ -30,7 +32,7 @@
         compatible = "zmk,keymap";
 
         // =========================================================
-        // Layer 0
+        // Layer 0  (Keyball39 Layer 0)
         // =========================================================
         default_layer {
             bindings = <
@@ -42,61 +44,38 @@
         };
 
         // =========================================================
-        // Layer 1 - Symbols (Keyball39 Layer 1)
+        // Layer 1 - Symbols  (Keyball39 Layer 1)
         // =========================================================
         symbol_layer {
             bindings = <
-&kp PRCNT           &kp DLLR      &kp AMPS      &kp CARET       &kp QMARK                                              &kp PIPE        &kp LBRC      &kp RBRC        &kp LT          &kp GT
-&kp AT              &kp HASH      &kp ASTRK     &kp EQUAL       &kp EQUAL     &trans                   &trans           &kp UNDER       &kp LPAR      &kp RPAR        &kp SEMI        &kp COLON
-&kp GRAVE           &kp TILDE     &trans        &kp EXCL        &kp QMARK     &trans                   &trans           &kp BSLH        &kp LBKT      &kp RBKT        &kp SQT         &kp DQT
+&kp PRCNT           &kp DLLR      &kp AMPS      &kp CARET       &kp FSLH                                               &kp BSLH        &kp LBRC      &kp RBRC        &kp LT          &kp GT
+&kp AT              &kp HASH      &kp ASTRK     &kp PLUS        &kp EQUAL     &trans                   &trans           &kp UNDER       &kp LPAR      &kp RPAR        &kp SEMI        &kp COLON
+&kp GRAVE           &kp TILDE     &trans        &kp EXCL        &kp QMARK     &trans                   &trans           &kp PIPE        &kp LBKT      &kp RBKT        &kp SQT         &kp DQT
 &kp LGUI            &kp LALT      &kp LA(W)     &trans          &trans        &trans                   &trans           &kp SPACE                                                     &trans
             >;
         };
 
         // =========================================================
-        // Layer 2 - Num/Nav/Mouse (Keyball39 Layer 2)
+        // Layer 2 - Num/Nav/Mouse  (Keyball39 Layer 2)
         // =========================================================
         num_layer {
             bindings = <
-&trans              &kp N7        &kp N8        &kp N9          &kp LG(FSLH)                                           &kp ENTER       &kp HOME      &kp UP          &kp END         &kp LALT
-&kp TAB             &kp N4        &kp N5        &kp N6          &trans        &trans                   &trans           &kp PG_UP       &kp LEFT      &kp DOWN        &kp RIGHT       &kp PG_DN
-&trans              &kp N1        &kp N2        &kp N3          &trans        &trans                   &trans           &kp LA(LEFT)    &kp LA(RIGHT) &mkp MB1        &mkp MB2        &mkp MB3
-&kp N0              &trans        &trans        &trans          &trans        &trans                   &kp LCTRL        &kp DEL                                                       &mo 3
+&kp TAB             &kp N7        &kp N8        &kp N9          &kp LG(FSLH)                                           &kp ENTER       &kp HOME      &kp UP          &kp END         &kp LALT
+&trans              &kp N4        &kp N5        &kp N6          &trans        &trans                   &trans           &kp PG_UP       &kp LEFT      &kp DOWN        &kp RIGHT       &kp PG_DN
+&kp N0              &kp N1        &kp N2        &kp N3          &trans        &trans                   &trans           &kp LA(LEFT)    &kp LA(RIGHT) &mkp MB1        &mkp MB2        &mkp MB3
+&trans              &trans        &trans        &trans          &trans        &trans                   &kp LCTRL        &kp DEL                                                       &mo 3
             >;
         };
 
         // =========================================================
-        // Layer 3 - Function (Keyball39 Layer 3)
+        // Layer 3 - Function  (Keyball39 Layer 3) - Mac用にAlt→Cmd修正
         // =========================================================
         fn_layer {
             bindings = <
-&kp F7              &kp F8        &kp F9        &kp F12         &trans                                                 &kp LC(LS(LA(N4))) &kp LS(LA(N4)) &kp LS(LA(N5)) &kp LG(SPACE) &kp C_VOL_UP
-&kp LCTRL           &kp F4        &kp F5        &kp F6          &kp F11       &trans                   &trans           &kp LS(LA(N3)) &trans         &kp LC(LA(LG(F1))) &trans      &kp C_VOL_DN
-&kp LSHFT           &kp F1        &kp F2        &kp F3          &kp F10       &trans                   &trans           &kp LA(LEFT)   &kp LA(RIGHT)  &kp F14         &kp F15         &kp F13
+&trans              &kp F7        &kp F8        &kp F9          &kp F12                                                &kp LC(LS(LG(N4))) &kp LS(LG(N4)) &kp LS(LG(N5)) &kp LG(SPACE) &kp C_VOL_UP
+&kp LCTRL           &kp F4        &kp F5        &kp F6          &kp F11       &trans                   &trans           &kp LS(LG(N3)) &trans         &kp LC(LA(LG(F1))) &trans      &kp C_VOL_DN
+&kp LSHFT           &kp F1        &kp F2        &kp F3          &kp F10       &trans                   &trans           &kp LA(LEFT)    &kp LA(RIGHT) &kp F14         &kp F15         &kp F13
 &kp ESC             &trans        &trans        &trans          &trans        &trans                   &kp LCTRL        &trans                                                        &mkp MB5
-            >;
-        };
-        // =========================================================
-        // Layer 4 - placeholder (lt/mt参照がこのレイヤーを作らない場合ZMKがレイヤー数を合わせるため配置)
-        // =========================================================
-        layer_4 {
-            bindings = <
-&trans              &trans        &trans        &trans          &trans                                                 &trans          &trans        &trans          &trans          &trans
-&trans              &trans        &trans        &trans          &trans        &trans                   &trans           &trans          &trans        &trans          &trans          &trans
-&trans              &trans        &trans        &trans          &trans        &trans                   &trans           &trans          &trans        &trans          &trans          &trans
-&trans              &trans        &trans        &trans          &trans        &trans                   &trans           &trans                                                        &trans
-            >;
-        };
-
-        // =========================================================
-        // Layer 5 - SCROLL (Z位置ホールドで起動、トラックボール=スクロール)
-        // =========================================================
-        scroll_layer {
-            bindings = <
-&trans              &trans        &trans        &trans          &trans                                                 &trans          &trans        &trans          &trans          &trans
-&trans              &trans        &trans        &trans          &trans        &trans                   &trans           &trans          &trans        &trans          &trans          &trans
-&trans              &trans        &trans        &trans          &trans        &trans                   &trans           &trans          &trans        &trans          &trans          &trans
-&trans              &trans        &trans        &trans          &trans        &trans                   &trans           &trans                                                        &trans
             >;
         };
     };
