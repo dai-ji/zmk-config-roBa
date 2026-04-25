@@ -28,6 +28,20 @@
 };
 
 / {
+    combos {
+        compatible = "zmk,combos";
+
+        // Q + P + B 同時押し → 現在プロファイルのBluetooth情報をクリア
+        // (BはmodtapではないのでZと違って安全。Layer 0 のみで有効)
+        combo_bt_clr {
+            bindings = <&bt BT_CLR>;
+            key-positions = <0 9 26>;
+            timeout-ms = <100>;
+            require-prior-idle-ms = <1000>;
+            layers = <0>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
